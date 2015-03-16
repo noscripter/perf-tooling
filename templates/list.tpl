@@ -132,23 +132,20 @@
 
                 <legend>Platform</legend>
 
-                <ul class="form-field">
+                <div class="form-field">
 
 
                   <% _.each( platforms, function( platform ) { %>
-                    <li class="checkbox-container">
+                    <div class="checkbox-container">
 
-                      <label>
+                      <label for="input-platform-<%= platform %>"><%= platform %></label>
+                      <input id ="input-platform-<%= platform %>" type="checkbox" value="<%= platform %>">
 
-                        <input type="checkbox" value="<%= platform %>"> <%= platform %>
-
-                      </label>
-
-                    </li>
+                    </div>
 
                   <% } ) %>
 
-                </ul>
+                </div>
 
               </fieldset>
 
@@ -156,23 +153,20 @@
 
                 <legend>Category</legend>
 
-                <ul id="tags-filter" class="list-unstyled">
+                <div id="tags-filter" class="list-unstyled">
 
                 <% _.each( tags, function( tag ) { %>
 
-                  <li class="checkbox-container">
+                  <div class="checkbox-container">
 
-                    <label>
+                    <label for="input-tag-<%= tag %>"><%= tag %></label>
+                    <input id ="input-tag-<%= tag %>" type="checkbox" value="<%= tag %>">
 
-                      <input type="checkbox" value="<%= tag %>"><%= tag %>
-
-                    </label>
-
-                  </li>
+                  </div>
 
                 <% } ) %>
 
-                </ul>
+                </div>
 
               </fieldset>
 
