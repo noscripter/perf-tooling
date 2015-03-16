@@ -28,16 +28,24 @@
 
 @media (min-width: @media-small) {
 
+  .col-3 {
+    width: (100% / @grid-columns * 3);
+  }
+
   .col-4 {
-    width: 33.33%;
+    width: (100% / @grid-columns * 4);
   }
 
   .col-6 {
-    width: 50%;
+    width: (100% / @grid-columns * 6);
   }
 
   .col-8 {
-    width: 66.67%;
+    width: (100% / @grid-columns * 8);
+  }
+
+  .col-9 {
+    width: (100% / @grid-columns * 9);
   }
 
 }
