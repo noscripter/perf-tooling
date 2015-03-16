@@ -16,12 +16,60 @@
 
   var timeout;
 
-  var currentSearchValue = '';
+  var currentSearchValue  = '';
+  var currentSelectedTags = [];
+
+
+  /**
+   * Add filter event listener
+   *
+   * @param {Object} options options
+   */
+  function addFilters( options ) {
+    options = options || {};
+
+    if ( options.data ) {
+      if ( options.elements.tags ) {
+        elements.tags = document.querySelector( options.elements.tags );
+
+        elements.tags.addEventListener( 'click', function( event ) {
+          var indexOfValue;
+
+          if ( event.target.tagName === 'INPUT' ) {
+
+            indexOfValue = currentSelectedTags.indexOf( event.target.value );
+
+            if (
+              event.target.checked &&
+              indexOfValue === -1
+            ) {
+              currentSelectedTags.push( event.target.value );
+            }
+
+            if (
+              ! event.target.checked &&
+              indexOfValue > -1
+            ) {
+              currentSelectedTags.splice( indexOfValue, 1 );
+            }
+
+            _filterListEntries(
+              options.data,
+              currentSearchValue,
+              currentSelectedTags
+            );
+          }
+        } );
+      }
+    }
+  }
 
 
   /**
    * Add event handlers to watch
    * out for filter changes
+   *
+   * @param {Options} options options
    */
   function addFuzzySearch( options ) {
     options = options || {};
@@ -90,17 +138,19 @@
    *
    * @param  {String} searchTearm searchTerm
    */
-  function _filterListEntries( list, searchTerm ) {
+  function _filterListEntries( list, searchTerm, tags ) {
     timeout = window.setTimeout( function() {
       history.replaceState( null, null, '?q=' + searchTerm );
     }, 2000 );
 
     var count       = 0;
     var searchTerms = searchTerm.split( ' ' );
-    var length = searchTerms.length;
+    var termsLength = searchTerms.length;
+    var tagsLength  = tags.length;
 
     list.forEach( function( entry ) {
       var i      = 0;
+      var j      = 0;
       var match  = true;
 
       // cache element to avoid multiple
@@ -109,9 +159,15 @@
         entry.elem  = document.getElementById( entry.name );
       }
 
-      for( ; i < length; ++i ) {
+      for( ; i < termsLength; ++i ) {
         if ( entry.fuzzy.indexOf( searchTerms[ i ] ) === -1 ) {
           match = false;
+        }
+      }
+
+      if ( match ) {
+        for ( ; j < tags.length, ++j ) {
+
         }
       }
 
@@ -120,7 +176,7 @@
         ++count;
       }
 
-      entry.elem.classList.toggle( 'is-hidden', !match );
+      entry.elem.classList.toggle( 'is-hidden', ! match );
     } );
 
     elements.noResultsMsg.classList.toggle( 'is-hidden', count !== 0 );
@@ -131,6 +187,11 @@
   window.perfTooling.components.fuzzy = {
     init   : function( options ) {
       addFuzzySearch( options );
+    }
+  };
+  window.perfTooling.components.filters = {
+    init   : function( options ) {
+      addFilters( options );
     }
   };
 } )( window );

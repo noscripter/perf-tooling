@@ -42,6 +42,14 @@
       },
       data : list
     } );
+
+    window.perfTooling.components.filters.init( {
+      elements : {
+        platforms : '#platforms-filter',
+        tags      : '#tags-filter'
+      },
+      data : list
+    } );
   }
 
   initToggleNav();
