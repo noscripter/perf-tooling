@@ -498,20 +498,6 @@ function renderPage( type, query ) {
 
 
 /**
- * Render all page layout with current data
- * @return {[type]} [description]
- */
-function renderAllPages() {
-  pages.index    = renderPage( 'index' );
-  pages.articles = renderPage( 'articles' );
-  pages.books    = renderPage( 'books' );
-  pages.slides   = renderPage( 'slides' );
-  pages.tools    = renderPage( 'tools' );
-  pages.videos   = renderPage( 'videos' );
-}
-
-
-/**
  * Fetch contributors
  */
 fetchContributors();
