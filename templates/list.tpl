@@ -27,50 +27,254 @@
         )
       %>
 
-      <main class="main" role="main">
+      <div class="container">
 
-        <div class="container">
-
-
-          <%=
-            partial(
-              'templates/partials/fuzzy.tpl',
-              {
-                list      : list,
-                platforms : platforms,
-                query     : query,
-                type      : type,
-                tags      : _.reduce( list, function( tags, entry ) {
-                  if ( entry.tags && entry.tags.length ) {
-                    for ( var i = 0; i < entry.tags.length; ++i ) {
-                      if ( _.indexOf( tags, entry.tags[ i ] ) === -1 ) {
-                        tags.push( entry.tags[ i ] );
-                      }
+        <%=
+          partial(
+            'templates/partials/fuzzy.tpl',
+            {
+              list      : list,
+              platforms : platforms,
+              query     : query,
+              type      : type,
+              tags      : _.reduce( list, function( tags, entry ) {
+                if ( entry.tags && entry.tags.length ) {
+                  for ( var i = 0; i < entry.tags.length; ++i ) {
+                    if ( _.indexOf( tags, entry.tags[ i ] ) === -1 ) {
+                      tags.push( entry.tags[ i ] );
                     }
                   }
+                }
 
-                  return tags;
-                }, [] ).sort()
-              }
-            )
-          %>
+                return tags;
+              }, [] ).sort()
+            }
+          )
+        %>
 
-          <%=
-            partial(
-              'templates/partials/lists/' + type + '.tpl',
-              {
-                list    : list,
-                partial : partial,
-                people  : people,
-                cdn     : cdn
-              }
-            )
-          %>
-          <div id="noResultMsg" class="<%= ( _.filter( list, function( entry ) { return !entry.hidden; } ).length ) ? 'is-hidden' : '' %>">No results found</div>
+        <div class="row">
+
+          <main class="main col col-9" role="main">
+
+              <%=
+                partial(
+                  'templates/partials/lists/' + type + '.tpl',
+                  {
+                    list    : list,
+                    partial : partial,
+                    people  : people,
+                    cdn     : cdn
+                  }
+                )
+              %>
+              <div id="noResultMsg" class="<%= ( _.filter( list, function( entry ) { return !entry.hidden; } ).length ) ? 'is-hidden' : '' %>">No results found</div>
+
+          </main>
+
+          <aside class="sidebar col col-3">
+
+            <form action="" class="form">
+
+              <h3>Sort</h3>
+
+              <div class="form-field">
+
+                <div class="radio-container">
+
+                  <label>A-Z</label>
+                  <input type="radio">
+
+                </div>
+
+                <div class="radio-container">
+
+                  <label>Z-A</label>
+                  <input type="radio">
+
+                </div>
+
+                <div class="radio-container">
+
+                  <label>last Updated</label>
+                  <input type="radio">
+
+                </div>
+
+              </div>
+
+            </form>
+
+            <form action="" class="form">
+
+              <h3>Filter</h3>
+
+              <fieldset>
+
+                <legend>Price</legend>
+
+                <div class="form-field">
+
+                  <div class="checkbox-container">
+
+                    <label>Free</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>Paid</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                </div>
+
+              </fieldset>
+
+              <fieldset>
+
+                <legend>Platform</legend>
+
+                <div class="form-field">
+
+                  <div class="checkbox-container">
+
+                    <label>Grunt</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>Gulp</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>CLI</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>Node</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>PHP</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>JavaScript</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>Angular</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>Wordpress</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>Chrome</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>Firefox</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>Service</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>Bookmarklet</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>Mac</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>Windows</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>Linux</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                  <div class="checkbox-container">
+
+                    <label>Illustrator</label>
+                    <input type="checkbox">
+
+                  </div>
+
+                </div>
+
+              </fieldset>
+
+              <fieldset>
+
+                <legend>Category</legend>
+
+                <div class="form-field">
+
+                  <select>
+                    <option>images</option>
+                  </select>
+
+                </div>
+
+              </fieldset>
+
+            </form>
+
+          </aside>
 
         </div>
 
-      </main>
+      </div>
 
       <%=
         partial(
