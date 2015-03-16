@@ -1,16 +1,65 @@
 .form {
 
+  input[type="email"],
+  input[type="search"],
+  input[type="text"],
+  select {
+    border: 1px solid @color-border;
+    height: @line-height + (.25rem * 2);
+    padding: .25rem .5rem;
+    width: 100%;
+  }
+
   input {
 
-    &[type="email"],
-    &[type="search"],
-    &[type="text"] {
-      border: 1px solid @color-border;
-      height: @line-height + (.25rem * 2);
-      padding: .25rem .5rem;
-      width: 100%;
+    &[type="checkbox"],
+    &[type="radio"] {
+      float: left;
+      margin: .125rem .25rem 0 .125rem;
     }
 
+    &[type="reset"],
+    &[type="submit"] {
+      background-color: @color-primary;
+      padding: .25rem 1rem;
+
+      &:focus,
+      &:hover {
+        background-color: @color-primary-hover;
+      }
+
+    }
+
+  }
+
+  .checkbox-container,
+  .radio-container {
+    .clearfix;
+    float: left;
+    width: (100% / 1);
+
+    label {
+      overflow: hidden;
+    }
+
+    @media (min-width: @media-tiny) {
+      width: (100% / 2);
+    }
+
+  }
+
+  fieldset {
+    border-bottom: 1px solid @color-border;
+    margin-bottom: .5rem;
+  }
+
+  label {
+    font-size: .875rem;
+    line-height: 1.5em;
+  }
+
+  legend {
+    font-weight: bold;
   }
 
 }
