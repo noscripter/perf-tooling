@@ -53,16 +53,20 @@ if (
 
 var port         = process.env.PORT || 3000;
 
-
-var data         = {
-  people   : {}
+/**
+ * Cache object to keep track of all the data
+ *
+ * @type {Object}
+ */
+var data = {
+  people   : {},
+  articles : getListData( 'articles' ),
+  books    : getListData( 'books' ),
+  slides   : getListData( 'slides' ),
+  tools    : getListData( 'tools' ),
+  videos   : getListData( 'videos' )
 };
 
-data.articles = getList( 'articles' );
-data.slides   = getList( 'slides' );
-data.tools    = getList( 'tools' );
-data.videos   = getList( 'videos' );
-data.books    = getList( 'books' );
 
 /**
  * List of contributors
@@ -138,9 +142,9 @@ function fetchContributors() {
  * Fetch github stars
  */
 function fetchGithubStars() {
-  _.each( data.tools, function( tool ) {
+  _.each( data.tools.list, function( tool ) {
     _.forIn( tool, function( value, key ) {
-      tool.stars = data.tools.stars || {};
+      tool.stars = tool.stars || {};
 
       if ( config.github.id && config.github.token ) {
         if (
@@ -195,27 +199,27 @@ function fetchTwitterUserMeta() {
     /**
      * Fetch twitter meta for people
      */
-    function fetchTwitterUserData( userName, type ) {
+    function fetchTwitterUserData( userName ) {
       userName = userName.replace( '@', '' );
 
-      if ( typeof data.people[ userName ] === 'undefined' ) {
+      if ( typeof data.people.list[ userName ] === 'undefined' ) {
         // block this entry until the response comes back
         // -> save same requests
-        data.people[ userName ] = true;
+        data.people.list[ userName ] = true;
 
         twit.get(
           '/users/show/:id',
           { id : userName },
-          function( err, twitterData, res ) {
+          function( err, twitterData ) {
             if ( err ) {
               return console.log( err );
             }
 
-            data.people[ userName ] = {
+            data.people.list[ userName ] = {
               description   : twitterData.description,
               followerCount : twitterData.followers_count,
               image         : twitterData.profile_image_url
-            }
+            };
 
             pages.articles = renderPage( 'articles' );
             pages.books    = renderPage( 'books' );
@@ -230,7 +234,7 @@ function fetchTwitterUserMeta() {
      * @param  {String} type entry type
      */
     function evalAuthors( type ) {
-      _.each( data[ type ], function( entry ) {
+      _.each( data[ type ].list, function( entry ) {
         if ( entry.authors.length ) {
           _.each( entry.authors, function( author ) {
             if ( author.twitter ) {
@@ -258,7 +262,7 @@ function fetchVideoMeta() {
   var youtubeNotificationShown = false;
   var vimeoNotificationShown   = false;
 
-  _.each( data.videos, function( video ) {
+  _.each( data.videos.list, function( video ) {
     if ( config.youtube.token ) {
       if ( video.youtubeId ) {
         Youtube.videos.list( {
@@ -353,8 +357,10 @@ function fetchVideoMeta() {
  *
  * @return {Object} tools
  */
-function getList( type ) {
+function getListData( type ) {
   var list                 = [];
+  var tags                 = [];
+
   var entries              = fs.readdirSync( config.dataDir + '/' + type );
   var oldAuthorFormatCount = 0;
 
@@ -389,6 +395,12 @@ function getList( type ) {
         }
 
         list.push( entry );
+
+        entry.tags.forEach( function( tag ) {
+          if ( tags.indexOf( tag ) === -1 ) {
+            tags.push( tag );
+          }
+        } );
       } catch( e ) {
         console.log( entry );
         console.log( 'SHITTTTT' );
@@ -404,7 +416,10 @@ function getList( type ) {
     console.warn( '-> Start cleaning up folks!!!' );
   }
 
-  return list;
+  return {
+    list : list,
+    tags : tags
+  };
 }
 
 
@@ -418,7 +433,8 @@ function getList( type ) {
  */
 function renderPage( type, query ) {
   var template = ( type === 'index' ) ? 'index' : 'list';
-  var list     = data[ type ] || null;
+  var list     = ( type === 'index' ) ? null : data[ type ].list;
+  var tags     = ( type === 'index' ) ? null : data[ type ].tags;
 
   if ( query ) {
     var queryValues  = query.split( ' ' );
@@ -476,6 +492,7 @@ function renderPage( type, query ) {
         },
         site             : config.site,
         svg              : pageContent.svg,
+        tags             : tags,
         list             : list,
         hash             : {
           css : pageContent.hashes.css,

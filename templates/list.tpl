@@ -73,7 +73,7 @@
 
           <aside class="sidebar col col-3">
 
-            <form action="" class="form">
+            <!-- <form action="" class="form">
 
               <h3>Sort</h3>
 
@@ -81,38 +81,34 @@
 
                 <div class="radio-container">
 
-                  <label>A-Z</label>
-                  <input type="radio">
+                  <label>
+                    <input type="radio">A-Z
+                  </label>
+
 
                 </div>
 
                 <div class="radio-container">
 
-                  <label>Z-A</label>
-                  <input type="radio">
-
-                </div>
-
-                <div class="radio-container">
-
-                  <label>last Updated</label>
-                  <input type="radio">
+                  <label>
+                    <input type="radio">Z-A
+                  </label>
 
                 </div>
 
               </div>
 
-            </form>
+            </form> -->
 
             <form action="" class="form">
 
               <h3>Filter</h3>
 
-              <fieldset>
+<!--               <fieldset>
 
                 <legend>Price</legend>
 
-                <div class="form-field">
+                <ul class="form-field">
 
                   <div class="checkbox-container">
 
@@ -128,129 +124,31 @@
 
                   </div>
 
-                </div>
+                </ul>
 
-              </fieldset>
+              </fieldset> -->
 
               <fieldset>
 
                 <legend>Platform</legend>
 
-                <div class="form-field">
+                <ul class="form-field">
 
-                  <div class="checkbox-container">
 
-                    <label>Grunt</label>
-                    <input type="checkbox">
+                  <% _.each( platforms, function( platform ) { %>
+                    <li class="checkbox-container">
 
-                  </div>
+                      <label>
 
-                  <div class="checkbox-container">
+                        <input type="checkbox" value="<%= platform %>"> <%= platform %>
 
-                    <label>Gulp</label>
-                    <input type="checkbox">
+                      </label>
 
-                  </div>
+                    </li>
 
-                  <div class="checkbox-container">
+                  <% } ) %>
 
-                    <label>CLI</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                  <div class="checkbox-container">
-
-                    <label>Node</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                  <div class="checkbox-container">
-
-                    <label>PHP</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                  <div class="checkbox-container">
-
-                    <label>JavaScript</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                  <div class="checkbox-container">
-
-                    <label>Angular</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                  <div class="checkbox-container">
-
-                    <label>Wordpress</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                  <div class="checkbox-container">
-
-                    <label>Chrome</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                  <div class="checkbox-container">
-
-                    <label>Firefox</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                  <div class="checkbox-container">
-
-                    <label>Service</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                  <div class="checkbox-container">
-
-                    <label>Bookmarklet</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                  <div class="checkbox-container">
-
-                    <label>Mac</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                  <div class="checkbox-container">
-
-                    <label>Windows</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                  <div class="checkbox-container">
-
-                    <label>Linux</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                  <div class="checkbox-container">
-
-                    <label>Illustrator</label>
-                    <input type="checkbox">
-
-                  </div>
-
-                </div>
+                </ul>
 
               </fieldset>
 
@@ -258,13 +156,23 @@
 
                 <legend>Category</legend>
 
-                <div class="form-field">
+                <ul id="tags-filter" class="list-unstyled">
 
-                  <select>
-                    <option>images</option>
-                  </select>
+                <% _.each( tags, function( tag ) { %>
 
-                </div>
+                  <li class="checkbox-container">
+
+                    <label>
+
+                      <input type="checkbox" value="<%= tag %>"><%= tag %>
+
+                    </label>
+
+                  </li>
+
+                <% } ) %>
+
+                </ul>
 
               </fieldset>
 
@@ -288,7 +196,8 @@
         _.map( list, function( entry ) {
           return {
             fuzzy : entry.fuzzy,
-            name  : entry.name.toLowerCase().replace( /[\s\.,:'"#\(\)|]/g, '-' )
+            name  : entry.name.toLowerCase().replace( /[\s\.,:'"#\(\)|]/g, '-' ),
+            tags  : entry.tags
           }
         } )
       ) %>;
