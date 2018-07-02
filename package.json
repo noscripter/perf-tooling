@@ -21,7 +21,9 @@
     "test": "gulp test",
     "gulp": "gulp",
     "dev": "gulp dev",
-    "server": "nodemon --watch templates/ --watch public --watch app.js --ext tpl,css,js app.js"
+    "server": "nodemon --watch templates/ --watch public --watch app.js --ext tpl,css,js app.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "homepage": "http://perf-tooling.today",
   "dependencies": {
@@ -36,7 +38,7 @@
     "gulp-csslint": "^0.1.5",
     "gulp-if": "^1.2.5",
     "gulp-imagemin": "^2.1.0",
-    "gulp-jshint": "^1.9.0",
+    "gulp-jshint": "^2.0.1",
     "gulp-json-editor": "^2.2.1",
     "gulp-jsonlint": "^1.0.2",
     "gulp-less": "3.0.0",
@@ -57,6 +59,8 @@
     "request": "^2.44.0",
     "twit": "^1.1.18",
     "vimeo-api": "^1.1.1",
-    "youtube-api": "^0.3.1"
-  }
+    "youtube-api": "^2.0.0",
+    "snyk": "^1.88.0"
+  },
+  "snyk": true
 }
